@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 
 
-axios.defaults.headers.common['Authorization'] = 'sAwbRikZWy1X8Gq5i3i8wx8V';
+const BASE_URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies/"
 
-const BASE_URL = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
-
-export default function HomePage({setIdmovie}) {
+export default function HomePage() {
 
     const [movies, setMovies] = useState([]);
 
@@ -29,7 +27,7 @@ export default function HomePage({setIdmovie}) {
                 { movies.map( movie => {
                     return (
                         <Link key = {movie.id} to= {`/sessoes/${movie.id}`}>
-                            <MovieContainer onClick={() => setIdFilme(filme.id)} data-test="movie">
+                            <MovieContainer data-test="movie">
                                 <img src={movie.posterURL} alt={movie.title}/>
                             </MovieContainer>                        
                         </Link>
