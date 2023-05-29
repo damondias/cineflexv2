@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
@@ -6,14 +7,16 @@ import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
-        <>
+        <BrowserRouter>
            <NavContainer>CINEFLEX</NavContainer>
+            <Routes>
+                 <Route  path= "/" element= {<HomePage />}/> 
+                {/* <SeatsPage /> */}
+                {/* <SessionsPage /> */}
+                {/* <SuccessPage /> */}
+           </Routes>
 
-            <HomePage />
-            {/* <SeatsPage /> */}
-            {/* <SessionsPage /> */}
-            {/* <SuccessPage /> */}
-        </>
+        </BrowserRouter>
     )
 }
 
