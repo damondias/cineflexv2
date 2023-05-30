@@ -23,11 +23,11 @@ export default function SessionsPage() {
         
     }, []) ;
 
-    if(days === null){
+    if(days === undefined){
         return <h1>Carregando</h1>
 
     }
-    console.log( movie);
+   
     return (
         <PageContainer>
             Selecione o horário

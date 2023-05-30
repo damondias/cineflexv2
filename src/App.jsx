@@ -4,23 +4,27 @@ import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 
 export default function App() {
 
+    const [booking, setBooking] = useState({});
 
     useEffect(() => {
         axios.defaults.headers.common['Authorization'] = 'sAwbRikZWy1X8Gq5i3i8wx8V';
     }, []);
 
+    
     return (
         <BrowserRouter>
            <NavContainer>CINEFLEX</NavContainer>
             <Routes>
                  <Route  path= "/" element= {<HomePage />}/> 
                  <Route  path= "/sessoes/:id" element= {<SessionsPage /> }/>
-                 
+                 <Route path="/assentos/:id" element={<SeatsPage setBooking={setBooking} />} />
+                 <Route path="/sucesso" element={<SuccessPage />} />
+
                 {/* <SeatsPage /> */}
                 {/* <SessionsPage /> */}
                 {/* <SuccessPage /> */}
