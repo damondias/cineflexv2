@@ -11,10 +11,7 @@ export default function App() {
 
     const [booking, setBooking] = useState({});
 
-    useEffect(() => {
-        axios.defaults.headers.common['Authorization'] = 'sAwbRikZWy1X8Gq5i3i8wx8V';
-    }, []);
-
+    axios.defaults.headers.common['Authorization'] = 'sAwbRikZWy1X8Gq5i3i8wx8V';
     
     return (
         <BrowserRouter>
@@ -23,11 +20,7 @@ export default function App() {
                  <Route  path= "/" element= {<HomePage />}/> 
                  <Route  path= "/sessoes/:id" element= {<SessionsPage /> }/>
                  <Route path="/assentos/:id" element={<SeatsPage setBooking={setBooking} />} />
-                 <Route path="/sucesso" element={<SuccessPage />} />
-
-                {/* <SeatsPage /> */}
-                {/* <SessionsPage /> */}
-                {/* <SuccessPage /> */}
+                 <Route path="/sucesso" element={<SuccessPage  booking={booking}/>} />
            </Routes>
 
         </BrowserRouter>

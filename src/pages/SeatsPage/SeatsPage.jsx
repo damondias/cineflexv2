@@ -1,24 +1,24 @@
 import styled from "styled-components"
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 
 const BASE_URL = "https://mock-api.driven.com.br/api/v8/cineflex/"
 
-export default function SeatsPage({setBooking}) {
+export default function SeatsPage({ setBooking }) {
 
-    const { id } = useParams();
     const [seats, setSeats] = useState(undefined);
     const [footer, setFooter] = useState(undefined);
     const [movie, setMovie] = useState({});
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
+
+    const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const promise = axios.get(`${BASE_URL}showtimes/${id}/seats`);
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`);
 
         promise.then(({ data }) => {
             const selected = [];
@@ -80,17 +80,16 @@ export default function SeatsPage({setBooking}) {
             seats: seatsSelected,
             client: { name, cpf }
         });
-        
+
         const response = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
             ids: idsSelected,
             name: name,
             cpf: cpf
         });
 
-        response.them ( ()=> navigate(`/sucesso`));
-        response.catch((err) => console.log(err.data));   
+        response.then(() => navigate("/sucesso"));
+        response.catch((err) => console.log(err.data));
     }
-   
 
     return (
         <PageContainer>
@@ -108,50 +107,53 @@ export default function SeatsPage({setBooking}) {
 
             <CaptionContainer>
                 <CaptionItem >
-                    <CaptionCircle background="#1AAE9E" border="#0E7D71"/>
+                    <CaptionCircle background="#1AAE9E" border="#0E7D71" />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle background="#C3CFD9" border="#7B8B99"/>
+                    <CaptionCircle background="#C3CFD9" border="#7B8B99" />
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle background="#FBE192" border="#F7C52B"/>
+                    <CaptionCircle background="#FBE192" border="#F7C52B" />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer onSubmit={handleSubmit}>
+            <FormContainer onSubmit={handleSubmit} >
                 <label htmlFor="name">Nome do Comprador:</label>
-                    <input id="name"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Digite seu nome..."
-                        required
-                        data-test="client-name"
-                    />
+                <input 
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Digite seu nome..."
+                    required
+                    data-test="client-name"
+                />
 
-                    <label htmlFor="cpf">CPF do Comprador:</label>
-                    <input id="cpf"
-                        type="number"
-                        value={cpf}
-                        onChange={(e) => setCpf(e.target.value)}
-                        placeholder="Digite seu CPF..."
-                        required
-                        data-test="client-cpf"
-                    />
+                <label htmlFor="cpf">CPF do Comprador:</label>
+                <input 
+                    id="cpf"
+                    type="number"
+                    value={cpf}
+                    onChange={(e) => setCpf(e.target.value)}
+                    placeholder="Digite seu CPF..."
+                    required
+                    data-test="client-cpf"
+                />
 
-                    <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
+                <button type="submit" data-test="book-seat-btn"> Reservar Assento(s) </button>
+
             </FormContainer>
 
             <FooterContainer data-test="footer">
                 <div>
-                    <img src={footer?.posterURL} alt={footer?.title} />
+                    <img src={footer.posterURL} alt={footer.title} />
                 </div>
                 <div>
-                    <p>{footer?.title}</p>
-                    <p>{footer?.weekday} - {footer?.time}</p>
+                    <p>{footer.title}</p>
+                    <p>{footer.weekday} - {footer.time}</p>
                 </div>
             </FooterContainer>
 
@@ -180,7 +182,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
@@ -220,7 +222,7 @@ const CaptionItem = styled.div`
 `
 const SeatItem = styled.div`
     border: 1px ${({ disabled, isSelected }) => disabled ? "#F7C52B" : isSelected ? "#0E7D71" : "#7B8B99"};
-    background-color: ${({ disabled, isSelected }) => disabled ? "#FBE192" : isSelected ? "#1AAE9E":  "#C3CFD9" };
+    background-color: ${({ disabled, isSelected }) => disabled ? "#FBE192" : isSelected ? "#1AAE9E" : "#C3CFD9"};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -230,6 +232,11 @@ const SeatItem = styled.div`
     align-items: center;
     justify-content: center;
     margin: 5px 3px;
+
+    &:disabled {
+        border: #F7C52B;
+        background-color: #FBE192;
+    }
 `
 const FooterContainer = styled.div`
     width: 100%;
